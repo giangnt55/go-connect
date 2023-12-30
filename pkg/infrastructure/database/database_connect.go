@@ -18,7 +18,9 @@ func SqlServerConnect() (*gorm.DB, error) {
 	}
 
 	//Migration
-	MigrateDB(db.Debug())
+	if os.Getenv("IS_MIGRATE") == "true" {
+		MigrateDB(db.Debug())
+	}
 
 	return db, nil
 }

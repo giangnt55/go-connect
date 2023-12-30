@@ -7,7 +7,7 @@ type User struct {
 	Username string `gorm:"unique"`
 	Email    string `gorm:"unique"`
 	Password string
-	base.SoftDeleteModel
+	base.BaseEntity
 }
 
 func (User) TableName() string {
