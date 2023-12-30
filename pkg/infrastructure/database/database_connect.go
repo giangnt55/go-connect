@@ -3,22 +3,22 @@ package database
 import (
 	"os"
 
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mssql"
+	"gorm.io/driver/sqlserver"
+	"gorm.io/gorm"
 )
 
 func SqlServerConnect() (*gorm.DB, error) {
 	dsn := os.Getenv("CONNECTION_STRING")
 
 	// Open a connection to the SQL Server database
-	db, err := gorm.Open("mssql", dsn)
+	db, err := gorm.Open(sqlserver.Open(dsn), &gorm.Config{})
+
 	if err != nil {
 		return nil, err
 	}
 
-	// Disable default transaction behavior
-	db.LogMode(true)
-	db.SingularTable(true)
+	//Migration
+	MigrateDB(db.Debug())
 
 	return db, nil
 }
